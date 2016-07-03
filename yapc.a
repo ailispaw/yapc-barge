@@ -31,8 +31,11 @@ if [ $$ -ne 1 ]; then
     ip netns add $NETNS
     TRAP_CMD="ip netns del $NETNS;$TRAP_CMD"
     trap "$TRAP_CMD" EXIT
-    ip link add name veth$NETNS type veth peer name eth0
-    ip link set eth0 netns $NETNS
+    ip link add name veth$NETNS type veth peer name veth0
+    ip link set veth0 netns $NETNS
+    ip netns exec $NETNS ip link set veth0 down
+    ip netns exec $NETNS ip link set veth0 name eth0
+    ip netns exec $NETNS ip link set eth0 up
     YAPC_IP_NETNS="ip netns exec $NETNS"
   fi
 
