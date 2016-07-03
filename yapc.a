@@ -70,14 +70,17 @@ if [ "$YAPC_INIT" ]; then
 
   mount -t proc -o rw,nosuid,nodev,noexec,relatime proc $YAPC_ROOT/proc
   mount --bind -o ro /proc/sys $YAPC_ROOT/proc/sys
-  mount --bind -o ro /proc/sysrq-trigger $YAPC_ROOT/proc/sysrq-trigger
+  if [ -e /proc/sysrq-trigger ]; then
+    mount --bind -o ro /proc/sysrq-trigger $YAPC_ROOT/proc/sysrq-trigger
+  fi
   mount --bind -o ro /proc/irq $YAPC_ROOT/proc/irq
   mount --bind -o ro /proc/bus $YAPC_ROOT/proc/bus
 
   mount -t sysfs -o ro,nosuid,noexec,nodev sysfs $YAPC_ROOT/sys
 
   for i in resolv.conf hosts hostname; do
-    cp --parents /etc/$i $YAPC_WORKDIR/upper/
+    mkdir -p $YAPC_WORKDIR/upper/etc/
+    cp /etc/$i $YAPC_WORKDIR/upper/etc/
   done
 
   test "$YAPC_CPU_QUOTA" && cgset -r cpu.cfs_quota_us=$YAPC_CPU_QUOTA $YAPC_CGROUP

@@ -1,11 +1,33 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# A dummy plugin for Barge to set hostname and network correctly at the very first `vagrant up`
+module VagrantPlugins
+  module GuestLinux
+    class Plugin < Vagrant.plugin("2")
+      guest_capability("linux", "change_host_name") { Cap::ChangeHostName }
+      guest_capability("linux", "configure_networks") { Cap::ConfigureNetworks }
+    end
+  end
+end
+
 Vagrant.configure(2) do |config|
-  config.vm.box = "boxcutter/ubuntu1604"
+  config.vm.define "yapc-barge"
+
+  config.vm.box = "ailispaw/barge"
+
+  config.vm.synced_folder ".", "/vagrant"
 
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
-    sudo apt-get install -y cgroup-tools
+    mkdir -p /opt/pkg/2.1.5/
+    cp /vagrant/pkg/* /opt/pkg/2.1.5/
+
+    pkg install iproute2
+    pkg install util-linux -e BR2_PACKAGE_UTIL_LINUX_BINARIES=y -e BR2_PACKAGE_UTIL_LINUX_UNSHARE=y
+    pkg install libcgroup -e BR2_PACKAGE_LIBCGROUP_TOOLS=y
+    pkg install libcap -e BR2_PACKAGE_LIBCAP_TOOLS=y
+
+    mkdir -p /home/bargee/centos
+    docker export $(docker create centos) | tar xf - -C /home/bargee/centos
   SHELL
 end
