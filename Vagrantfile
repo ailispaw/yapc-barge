@@ -11,16 +11,19 @@ module VagrantPlugins
   end
 end
 
+VERSION="2.1.6"
+
 Vagrant.configure(2) do |config|
   config.vm.define "yapc-barge"
 
   config.vm.box = "ailispaw/barge"
+  config.vm.box_version = VERSION
 
   config.vm.synced_folder ".", "/vagrant"
 
   config.vm.provision "shell", inline: <<-SHELL
-    mkdir -p /opt/pkg/2.1.5/
-    cp /vagrant/pkg/* /opt/pkg/2.1.5/
+    mkdir -p /opt/pkg/#{VERSION}/
+    cp /vagrant/pkg/* /opt/pkg/#{VERSION}/
 
     pkg install iproute2
     pkg install util-linux -e BR2_PACKAGE_UTIL_LINUX_BINARIES=y -e BR2_PACKAGE_UTIL_LINUX_UNSHARE=y
