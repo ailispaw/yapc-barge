@@ -11,7 +11,7 @@ module VagrantPlugins
   end
 end
 
-VERSION="2.1.11"
+VERSION="2.2.1"
 
 Vagrant.configure(2) do |config|
   config.vm.define "yapc-barge"
@@ -26,7 +26,6 @@ Vagrant.configure(2) do |config|
     cp /vagrant/pkg/barge-pkg-*-#{VERSION}.tar.gz /opt/pkg/#{VERSION}/
 
     pkg install iproute2
-    pkg install util-linux -e BR2_PACKAGE_UTIL_LINUX_BINARIES=y -e BR2_PACKAGE_UTIL_LINUX_UNSHARE=y
     pkg install libcgroup -e BR2_PACKAGE_LIBCGROUP_TOOLS=y
     pkg install libcap -e BR2_PACKAGE_LIBCAP_TOOLS=y
 

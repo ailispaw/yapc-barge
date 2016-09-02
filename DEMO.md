@@ -20,13 +20,13 @@ $ vagrant ssh
 
 ```bash
 [bargee@barge ~]$ sudo /vagrant/yapc.1 /bin/bash
-bash-4.3# ps auxf
+[root@barge bargee]# ps auxf
 PID   USER     COMMAND
     1 root     /bin/bash
     2 root     ps auxf
-bash-4.3# hostname yapc; hostname
+[root@barge bargee]# hostname yapc; hostname
 yapc
-bash-4.3# exit
+[root@barge bargee]# exit
 exit
 [bargee@barge ~]$ hostname
 barge
@@ -79,7 +79,7 @@ PING 127.0.0.1 (127.0.0.1): 56 data bytes
 
 ```bash
 [bargee@barge ~]$ sudo /vagrant/yapc.4 /bin/bash
-bash-4.3# touch /yapc; ls -l /yapc
+[root@barge /]# touch /yapc; ls -l /yapc
 -rw-r--r--    1 root     root             0 Jul 28 22:10 /yapc
 ```
 
@@ -148,7 +148,7 @@ REDHAT_SUPPORT_PRODUCT_VERSION="7"
 #### ネットワークネームスペースを有効にしたコンテナでbashを実行
 ```bash
 [bargee@barge ~]$ sudo YAPC_NET=1 YAPC_CAPS="cap_net_raw,cap_net_admin" /vagrant/yapc.a /bin/bash
-bash-4.3# 
+[root@barge /]# 
 ```
 
 #### もう一つ別のターミナルを開いて、ホスト側のvethをブリッジに登録する
@@ -164,19 +164,19 @@ $ vagrant ssh
 
 #### コンテナ側のvethにIPアドレスを割り当る
 ```bash
-bash-4.3# ip link
+[root@barge /]# ip link
 1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN mode DEFAULT group default qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 11: eth0@if12: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
     link/ether 3a:77:b0:f6:ed:1a brd ff:ff:ff:ff:ff:ff link-netnsid 0
-bash-4.3# ip link set dev eth0 up
-bash-4.3# ip a add 10.0.0.10/24 dev eth0
-bash-4.3# ip link
+[root@barge /]# ip link set dev eth0 up
+[root@barge /]# ip a add 10.0.0.10/24 dev eth0
+[root@barge /]# ip link
 1: lo: <LOOPBACK> mtu 65536 qdisc noop state DOWN mode DEFAULT group default qlen 1
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 11: eth0@if12: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
     link/ether 3a:77:b0:f6:ed:1a brd ff:ff:ff:ff:ff:ff link-netnsid 0
-bash-4.3# ping 10.0.0.1
+[root@barge /]# ping 10.0.0.1
 PING 10.0.0.1 (10.0.0.1): 56 data bytes
 64 bytes from 10.0.0.1: seq=0 ttl=64 time=0.204 ms
 64 bytes from 10.0.0.1: seq=1 ttl=64 time=0.073 ms
