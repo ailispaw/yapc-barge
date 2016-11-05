@@ -17,7 +17,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "yapc-barge"
 
   config.vm.box = "ailispaw/barge"
-  config.vm.box_version = VERSION
+  config.vm.box_version = "#{VERSION}.2"
 
   config.vm.synced_folder ".", "/vagrant"
 
