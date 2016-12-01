@@ -11,13 +11,13 @@ module VagrantPlugins
   end
 end
 
-VERSION="2.2.7"
+VERSION="2.3.0"
 
 Vagrant.configure(2) do |config|
   config.vm.define "yapc-barge"
 
   config.vm.box = "ailispaw/barge"
-  config.vm.box_version = "#{VERSION}.3"
+  config.vm.box_version = "#{VERSION}"
 
   config.vm.synced_folder ".", "/vagrant"
 
