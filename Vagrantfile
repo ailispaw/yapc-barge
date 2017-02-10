@@ -28,6 +28,7 @@ Vagrant.configure(2) do |config|
     pkg install iproute2
     pkg install libcgroup -e BR2_PACKAGE_LIBCGROUP_TOOLS=y
     pkg install libcap -e BR2_PACKAGE_LIBCAP_TOOLS=y
+    pkg install tar
 
     mkdir -p /home/bargee/centos
     docker export $(docker create centos) | tar xf - -C /home/bargee/centos
