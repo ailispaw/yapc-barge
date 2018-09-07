@@ -11,7 +11,7 @@ module VagrantPlugins
   end
 end
 
-VERSION="2.9.2"
+VERSION="2.10.0"
 
 Vagrant.configure(2) do |config|
   config.vm.define "yapc-barge"
